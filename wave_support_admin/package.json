@@ -5,7 +5,13 @@
   "Author": "Nathanael Fletcher",
   "main": "public/electron.js",
   "build": {
-    "appId": "admin.app"
+    "appId": "admin.app",
+    "mac": {
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "icon": "build/icon.png"
+    },
   },
   "homepage": "./",
   "dependencies": {
