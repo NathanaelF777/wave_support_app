@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Articles from './Articles.js'
 
 class Categories extends Component {
   constructor(props){
@@ -14,9 +15,8 @@ class Categories extends Component {
   }
 
   async getCategories(){
-    let response = await fetch(`http://localhost:3000/categories`)
+    let response = await fetch(`http://localhost:3001/categories`)
     let data = await response.json()
-    console.log(data)
     this.setState({
       categories: data
     })
@@ -26,7 +26,10 @@ class Categories extends Component {
     return(
       <div>
         {this.state.categories.map(cat => (
-          <h2>{cat.name}</h2>
+          <div>
+            <h2>{cat.name}</h2>
+            <Articles category={cat}/>
+          </div>
         ))}
       </div>
     )
