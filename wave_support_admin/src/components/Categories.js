@@ -1,15 +1,18 @@
 import React, {Component} from 'react'
 import Articles from './Articles.js'
-import CategoryPage from './CategoryPage.js'
+import Category from './Category.js'
 import { HashRouter as Router, Route, Link } from "react-router-dom";
+import Async from 'react-async'
 
 class Categories extends Component {
   constructor(props){
     super(props)
     this.state = {
-      categories: []
+      categories: [],
+      currentCategory: {}
     }
     this.getCategories = this.getCategories.bind(this)
+    this.selectCategory = this.selectCategory.bind(this)
   }
 
   componentDidMount() {
@@ -17,29 +20,33 @@ class Categories extends Component {
   }
 
   async getCategories(){
-    let response = await fetch(`http://localhost:3001/categories`)
-    let data = await response.json()
+    try {
+      let response = await fetch(`http://localhost:3001/categories/`)
+      let data = await response.json()
+      this.setState({
+        categories: data,
+        currentCategory: data[0]
+      })
+      console.log(this.state.currentCategory)
+    } catch (error){
+      console.log(error);
+    }
+  }
+
+  selectCategory(category){
     this.setState({
-      categories: data
+      currentCategory: category
     })
   }
 
   render(){
     return(
       <div>
+        {this.state.categories.map(cat => (
+          <button onClick={()=> {this.selectCategory(cat)}}>{cat.name}</button>
+        ))}
         <div>
-          {this.state.categories.map(cat => (
-            <div>
-              <Link to={`/category/${cat.name}`} >{cat.name}</Link>
-            </div>
-          ))}
-        </div>
-        <div>
-          {this.state.categories.map(cat => (
-            <div>
-              <Route exact path={`/category/${cat.name}`} render={(props) => <CategoryPage {...props} category={cat} />} />
-            </div>
-          ))}
+          <Category category={this.state.currentCategory} />
         </div>
       </div>
     )
