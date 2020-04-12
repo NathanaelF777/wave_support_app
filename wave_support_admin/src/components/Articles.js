@@ -25,6 +25,7 @@ class Articles extends Component {
   render(){
     return(
       <div>
+        <h2>HELLO</h2>
         {this.state.articles.map(article => (
           <Article article={article} />
         ))}

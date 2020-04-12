@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import Articles from './Articles.js'
+import CategoryPage from './CategoryPage.js'
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 
 class Categories extends Component {
   constructor(props){
@@ -25,12 +27,20 @@ class Categories extends Component {
   render(){
     return(
       <div>
-        {this.state.categories.map(cat => (
-          <div>
-            <h2>{cat.name}</h2>
-            <Articles category={cat}/>
-          </div>
-        ))}
+        <div>
+          {this.state.categories.map(cat => (
+            <div>
+              <Link to={`/category/${cat.name}`} >{cat.name}</Link>
+            </div>
+          ))}
+        </div>
+        <div>
+          {this.state.categories.map(cat => (
+            <div>
+              <Route exact path={`/category/${cat.name}`} render={(props) => <CategoryPage {...props} category={cat} />} />
+            </div>
+          ))}
+        </div>
       </div>
     )
   }
